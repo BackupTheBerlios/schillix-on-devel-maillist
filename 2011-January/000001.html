@@ -1,0 +1,117 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Schillix-on-devel] Integrating hdump(1) as the OSS od(1) implementation into Schillix-ON
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/schillix-on-devel/2011-January/index.html" >
+   <LINK REL="made" HREF="mailto:schillix-on-devel%40lists.berlios.de?Subject=Re%3A%20%5BSchillix-on-devel%5D%20Integrating%20hdump%281%29%20as%20the%20OSS%20od%281%29%0A%20implementation%20into%20Schillix-ON&In-Reply-To=%3C4d2c5d4e.FsbK8SBZThTr3619%25Joerg.Schilling%40fokus.fraunhofer.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000000.html">
+   <LINK REL="Next"  HREF="000002.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Schillix-on-devel] Integrating hdump(1) as the OSS od(1) implementation into Schillix-ON</H1>
+    <B>Joerg Schilling</B> 
+    <A HREF="mailto:schillix-on-devel%40lists.berlios.de?Subject=Re%3A%20%5BSchillix-on-devel%5D%20Integrating%20hdump%281%29%20as%20the%20OSS%20od%281%29%0A%20implementation%20into%20Schillix-ON&In-Reply-To=%3C4d2c5d4e.FsbK8SBZThTr3619%25Joerg.Schilling%40fokus.fraunhofer.de%3E"
+       TITLE="[Schillix-on-devel] Integrating hdump(1) as the OSS od(1) implementation into Schillix-ON">Joerg.Schilling at fokus.fraunhofer.de
+       </A><BR>
+    <I>Tue Jan 11 14:38:22 CET 2011</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000000.html">[Schillix-on-devel] Happy new year
+</A></li>
+        <LI>Next message: <A HREF="000002.html">[Schillix-on-devel] testing patch OSS replacement
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#1">[ date ]</a>
+              <a href="thread.html#1">[ thread ]</a>
+              <a href="subject.html#1">[ subject ]</a>
+              <a href="author.html#1">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>I am going to integrate the schily hdump(1) utility into Schillix-ON and I need 
+to decide whether to do this into the directory usr/src/cmd/hdump/ or into the 
+directory usr/src/cmd/od/.
+
+The &quot;dmake install&quot; for the program delivers:
+
+	usr/bin/hdump
+	usr/bin/od
+	usr/xpg4/bin/od
+
+with all different CLI behavior.
+
+The Sun original is expected to be in the directory usr/closed/cmd/od/
+
+Please help me with making the right decision.
+
+I also need help with a design decision:
+
+usr/bin/od is supposed to be the SVr4 compatible binary and usr/xpg4/bin/od is 
+supposed to be the POSIX compatible program. The Sun binaries are all bugy and 
+do not properly align the output.
+
+Calling Sun &quot;od -tx1x2x4 Makefile&quot; will deliver:
+
+od -tx1x2x4 Makefile
+0000000 23 69 64 65 6e 74 20 40 28 23 29 4d 61 6b 65 66
+          6923  6564  746e  4020  2328  4d29  6b61  6665
+            65646923    4020746e    4d292328    66656b61
+
+while the standard expects something like:
+
+0000000 23 69 64 65 6e 74 20 40 28 23 29 4d 61 6b 65 66
+         6923  6564  746e  4020  2328  4d29  6b61  6665
+           65646923    4020746e    4d292328    66656b61
+
+Unfortunately Sun od uses a &quot;wrong&quot; printf format for the floating point output.
+Sun uses %14.7e but only %13.6e is able to print the nice output like:
+
+0000000   6923   6564   746e   4020   2328   4d29   6b61   6665
+             65646923      4020746e      4d292328      66656b61
+         6,741494e+22  2,507106e+00  1,773533e+08  2,708507e+23
+
+But:
+
+0000000   6923   6564   746e   4020   2328   4d29   6b61   6665
+               65646923       4020746e       4d292328       66656b61
+          6,7414937e+22  2,5071063e+00  1,7735334e+08  2,7085068e+23
+
+Most od(1) implementations use the %13.6e format. What do you prefer here?
+J&#246;rg
+
+-- 
+ EMail:<A HREF="https://lists.berlios.de/mailman/listinfo/schillix-on-devel">joerg at schily.isdn.cs.tu-berlin.de</A> (home) J&#246;rg Schilling D-13353 Berlin
+       <A HREF="https://lists.berlios.de/mailman/listinfo/schillix-on-devel">js at cs.tu-berlin.de</A>                (uni)  
+       <A HREF="https://lists.berlios.de/mailman/listinfo/schillix-on-devel">joerg.schilling at fokus.fraunhofer.de</A> (work) Blog: <A HREF="http://schily.blogspot.com/">http://schily.blogspot.com/</A>
+ URL:  <A HREF="http://cdrecord.berlios.de/private/">http://cdrecord.berlios.de/private/</A> <A HREF="ftp://ftp.berlios.de/pub/schily">ftp://ftp.berlios.de/pub/schily</A>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000000.html">[Schillix-on-devel] Happy new year
+</A></li>
+	<LI>Next message: <A HREF="000002.html">[Schillix-on-devel] testing patch OSS replacement
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#1">[ date ]</a>
+              <a href="thread.html#1">[ thread ]</a>
+              <a href="subject.html#1">[ subject ]</a>
+              <a href="author.html#1">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/schillix-on-devel">More information about the Schillix-on-devel
+mailing list</a><br>
+</body></html>

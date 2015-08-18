@@ -1,0 +1,133 @@
+From Joerg.Schilling at fokus.fraunhofer.de  Tue Oct 22 14:26:41 2013
+From: Joerg.Schilling at fokus.fraunhofer.de (Joerg Schilling)
+Date: Tue, 22 Oct 2013 14:26:41 +0200
+Subject: [Schillix-on-devel] PSARC 2013/001: New syscall aquireppriv()
+Message-ID: <52666f01.bj1D/mfQYXfg/oq0%Joerg.Schilling@fokus.fraunhofer.de>
+
+1. Introduction
+      1.1. Project/Component Working Name:
+	Fine grained privileges enhancement aquireppriv()
+
+	 PSARC FastTrack, proposed timeout 2013/11/15
+	 Case Number: PSARC/2013/001
+
+      1.2. Name of Document Author/Supplier:
+	 Author:  J?rg Schilling
+	 Sponsor: 
+      1.3  Date of This Document:
+	June 2013/10/22
+
+4. Technical Description
+
+	Executive Summary
+
+	aquireppriv() is intended as an enhencement to the privileges(5)
+	interface in order to avoid an exec() call to get new privileges.
+
+	It is intended to be implemented via:
+
+	#define	PRIVSYS_AQUIREPPRIV	30	/* leave room for Oracle */
+	privsys(PRIVSYS_AQUIREPPRIV);
+
+	and will do the same as calling
+
+	setpflags(PRIV_PFEXEC, 1);
+	execv("path-to-binary", av);
+
+	but it will avoid the exec() overhead.
+
+	Note that the state of the PRIV_PFEXEC flag is not important for
+	aquireppriv() and will not be changed. PRIV_PFEXEC just controls
+	whether the next exec() call will use the in-kernel pfexec mechanism.
+
+	Background
+
+	When fine grained privileges have been introduced into Solaris, I 
+	proposed to implement an in kernel mechanism that allows to raise
+	privileges without a need for a suid-root binary.
+
+	This idea has been implemented as PSARC 2009/377 In-kernel pfexec 
+	implementation.
+
+	Now, we can call:
+
+	setpflags(PRIV_PFEXEC, 1);
+	execv("path-to-binary", av);
+
+	and the kernel raises the privileges based on /etc/security/exec_attr.
+	This method can also be used by a binary that first sets the
+	PRIV_PFEXEC flag and then exec's itself. Cdrtools use this method to
+	gain the needed privileges.
+
+	There is however an overhead of exec()ing cdrecord again just in order
+	to raise it's privilege set. Introducing aquireppriv() will do the
+	same security checks as done for pfexec (however the PRIV_PFEXEC flag
+	needs not be set before) as the exec().
+
+	
+	Support requirements
+
+	None
+
+	Targeted Releases
+
+	OpenSolaris development cycle
+
+6. Resources and Schedule
+      6.4. Steering Committee requested information
+     	6.4.1. Consolidation C-team Name:
+		J?rg Schilling
+
+      6.5. ARC review type:
+		FastTrack
+
+
+
+J?rg
+
+-- 
+ EMail:joerg at schily.isdn.cs.tu-berlin.de (home) J?rg Schilling D-13353 Berlin
+       js at cs.tu-berlin.de                (uni)  
+       joerg.schilling at fokus.fraunhofer.de (work) Blog: http://schily.blogspot.com/
+ URL:  http://cdrecord.berlios.de/private/ ftp://ftp.berlios.de/pub/schily
+
+From Joerg.Schilling at fokus.fraunhofer.de  Tue Oct 22 14:43:31 2013
+From: Joerg.Schilling at fokus.fraunhofer.de (Joerg Schilling)
+Date: Tue, 22 Oct 2013 14:43:31 +0200
+Subject: [Schillix-on-devel] 703: Add the updated Bourne Shell to SchilliX-ON
+Message-ID: <526672f3.1puNJuhTJzrkxHVf%Joerg.Schilling@fokus.fraunhofer.de>
+
+Hi,
+
+we need to decide whether the new updated Bourne Shell will become part of 
+SUNWcsu (this is where the Bourne Shell traditionally was) or whether it should 
+become an own package.
+
+If the enhanced Bourne Shell becomes part of SUNWcsu, we need to add 
+
+	SCHILYsystem-library-schily-root
+and
+	SCHILYsystem-library-schily
+
+to the list of default dependencies for the base system.
+
+Note that the enhanced Bourne Shell is linked with Lazy library loading 
+and thus needs no more librararies than before when just interpreting shell 
+scriupts, but in case it is run interactive, it needs:
+
+	libschily
+	libshedit
+	libxtermcap
+
+in addition. All these libs are part of SCHILYsystem-library-schily-root.
+
+Comments?
+
+J?rg
+
+-- 
+ EMail:joerg at schily.isdn.cs.tu-berlin.de (home) J?rg Schilling D-13353 Berlin
+       js at cs.tu-berlin.de                (uni)  
+       joerg.schilling at fokus.fraunhofer.de (work) Blog: http://schily.blogspot.com/
+ URL:  http://cdrecord.berlios.de/private/ ftp://ftp.berlios.de/pub/schily
+

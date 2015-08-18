@@ -1,0 +1,91 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Schillix-on-devel] 703: Add the updated Bourne Shell to SchilliX-ON
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/schillix-on-devel/2013-October/index.html" >
+   <LINK REL="made" HREF="mailto:schillix-on-devel%40lists.berlios.de?Subject=Re%3A%20%5BSchillix-on-devel%5D%20703%3A%20Add%20the%20updated%20Bourne%20Shell%20to%20SchilliX-ON&In-Reply-To=%3C526672f3.1puNJuhTJzrkxHVf%25Joerg.Schilling%40fokus.fraunhofer.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000009.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Schillix-on-devel] 703: Add the updated Bourne Shell to SchilliX-ON</H1>
+    <B>Joerg Schilling</B> 
+    <A HREF="mailto:schillix-on-devel%40lists.berlios.de?Subject=Re%3A%20%5BSchillix-on-devel%5D%20703%3A%20Add%20the%20updated%20Bourne%20Shell%20to%20SchilliX-ON&In-Reply-To=%3C526672f3.1puNJuhTJzrkxHVf%25Joerg.Schilling%40fokus.fraunhofer.de%3E"
+       TITLE="[Schillix-on-devel] 703: Add the updated Bourne Shell to SchilliX-ON">Joerg.Schilling at fokus.fraunhofer.de
+       </A><BR>
+    <I>Tue Oct 22 14:43:31 CEST 2013</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000009.html">[Schillix-on-devel] PSARC 2013/001: New syscall aquireppriv()
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#10">[ date ]</a>
+              <a href="thread.html#10">[ thread ]</a>
+              <a href="subject.html#10">[ subject ]</a>
+              <a href="author.html#10">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi,
+
+we need to decide whether the new updated Bourne Shell will become part of 
+SUNWcsu (this is where the Bourne Shell traditionally was) or whether it should 
+become an own package.
+
+If the enhanced Bourne Shell becomes part of SUNWcsu, we need to add 
+
+	SCHILYsystem-library-schily-root
+and
+	SCHILYsystem-library-schily
+
+to the list of default dependencies for the base system.
+
+Note that the enhanced Bourne Shell is linked with Lazy library loading 
+and thus needs no more librararies than before when just interpreting shell 
+scriupts, but in case it is run interactive, it needs:
+
+	libschily
+	libshedit
+	libxtermcap
+
+in addition. All these libs are part of SCHILYsystem-library-schily-root.
+
+Comments?
+
+J&#246;rg
+
+-- 
+ EMail:<A HREF="https://lists.berlios.de/mailman/listinfo/schillix-on-devel">joerg at schily.isdn.cs.tu-berlin.de</A> (home) J&#246;rg Schilling D-13353 Berlin
+       <A HREF="https://lists.berlios.de/mailman/listinfo/schillix-on-devel">js at cs.tu-berlin.de</A>                (uni)  
+       <A HREF="https://lists.berlios.de/mailman/listinfo/schillix-on-devel">joerg.schilling at fokus.fraunhofer.de</A> (work) Blog: <A HREF="http://schily.blogspot.com/">http://schily.blogspot.com/</A>
+ URL:  <A HREF="http://cdrecord.berlios.de/private/">http://cdrecord.berlios.de/private/</A> <A HREF="ftp://ftp.berlios.de/pub/schily">ftp://ftp.berlios.de/pub/schily</A>
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000009.html">[Schillix-on-devel] PSARC 2013/001: New syscall aquireppriv()
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#10">[ date ]</a>
+              <a href="thread.html#10">[ thread ]</a>
+              <a href="subject.html#10">[ subject ]</a>
+              <a href="author.html#10">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/schillix-on-devel">More information about the Schillix-on-devel
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,145 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Schillix-on-devel] PSARC 2013/001: New syscall aquireppriv()
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/schillix-on-devel/2013-October/index.html" >
+   <LINK REL="made" HREF="mailto:schillix-on-devel%40lists.berlios.de?Subject=Re%3A%20%5BSchillix-on-devel%5D%20PSARC%202013/001%3A%20New%20syscall%20aquireppriv%28%29&In-Reply-To=%3C52666f01.bj1D/mfQYXfg/oq0%25Joerg.Schilling%40fokus.fraunhofer.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000010.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Schillix-on-devel] PSARC 2013/001: New syscall aquireppriv()</H1>
+    <B>Joerg Schilling</B> 
+    <A HREF="mailto:schillix-on-devel%40lists.berlios.de?Subject=Re%3A%20%5BSchillix-on-devel%5D%20PSARC%202013/001%3A%20New%20syscall%20aquireppriv%28%29&In-Reply-To=%3C52666f01.bj1D/mfQYXfg/oq0%25Joerg.Schilling%40fokus.fraunhofer.de%3E"
+       TITLE="[Schillix-on-devel] PSARC 2013/001: New syscall aquireppriv()">Joerg.Schilling at fokus.fraunhofer.de
+       </A><BR>
+    <I>Tue Oct 22 14:26:41 CEST 2013</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000010.html">[Schillix-on-devel] 703: Add the updated Bourne Shell to SchilliX-ON
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#9">[ date ]</a>
+              <a href="thread.html#9">[ thread ]</a>
+              <a href="subject.html#9">[ subject ]</a>
+              <a href="author.html#9">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>1. Introduction
+      1.1. Project/Component Working Name:
+	Fine grained privileges enhancement aquireppriv()
+
+	 PSARC FastTrack, proposed timeout 2013/11/15
+	 Case Number: PSARC/2013/001
+
+      1.2. Name of Document Author/Supplier:
+	 Author:  J&#246;rg Schilling
+	 Sponsor: 
+      1.3  Date of This Document:
+	June 2013/10/22
+
+4. Technical Description
+
+	Executive Summary
+
+	aquireppriv() is intended as an enhencement to the privileges(5)
+	interface in order to avoid an exec() call to get new privileges.
+
+	It is intended to be implemented via:
+
+	#define	PRIVSYS_AQUIREPPRIV	30	/* leave room for Oracle */
+	privsys(PRIVSYS_AQUIREPPRIV);
+
+	and will do the same as calling
+
+	setpflags(PRIV_PFEXEC, 1);
+	execv(&quot;path-to-binary&quot;, av);
+
+	but it will avoid the exec() overhead.
+
+	Note that the state of the PRIV_PFEXEC flag is not important for
+	aquireppriv() and will not be changed. PRIV_PFEXEC just controls
+	whether the next exec() call will use the in-kernel pfexec mechanism.
+
+	Background
+
+	When fine grained privileges have been introduced into Solaris, I 
+	proposed to implement an in kernel mechanism that allows to raise
+	privileges without a need for a suid-root binary.
+
+	This idea has been implemented as PSARC 2009/377 In-kernel pfexec 
+	implementation.
+
+	Now, we can call:
+
+	setpflags(PRIV_PFEXEC, 1);
+	execv(&quot;path-to-binary&quot;, av);
+
+	and the kernel raises the privileges based on /etc/security/exec_attr.
+	This method can also be used by a binary that first sets the
+	PRIV_PFEXEC flag and then exec's itself. Cdrtools use this method to
+	gain the needed privileges.
+
+	There is however an overhead of exec()ing cdrecord again just in order
+	to raise it's privilege set. Introducing aquireppriv() will do the
+	same security checks as done for pfexec (however the PRIV_PFEXEC flag
+	needs not be set before) as the exec().
+
+	
+	Support requirements
+
+	None
+
+	Targeted Releases
+
+	OpenSolaris development cycle
+
+6. Resources and Schedule
+      6.4. Steering Committee requested information
+     	6.4.1. Consolidation C-team Name:
+		J&#246;rg Schilling
+
+      6.5. ARC review type:
+		FastTrack
+
+
+
+J&#246;rg
+
+-- 
+ EMail:<A HREF="https://lists.berlios.de/mailman/listinfo/schillix-on-devel">joerg at schily.isdn.cs.tu-berlin.de</A> (home) J&#246;rg Schilling D-13353 Berlin
+       <A HREF="https://lists.berlios.de/mailman/listinfo/schillix-on-devel">js at cs.tu-berlin.de</A>                (uni)  
+       <A HREF="https://lists.berlios.de/mailman/listinfo/schillix-on-devel">joerg.schilling at fokus.fraunhofer.de</A> (work) Blog: <A HREF="http://schily.blogspot.com/">http://schily.blogspot.com/</A>
+ URL:  <A HREF="http://cdrecord.berlios.de/private/">http://cdrecord.berlios.de/private/</A> <A HREF="ftp://ftp.berlios.de/pub/schily">ftp://ftp.berlios.de/pub/schily</A>
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000010.html">[Schillix-on-devel] 703: Add the updated Bourne Shell to SchilliX-ON
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#9">[ date ]</a>
+              <a href="thread.html#9">[ thread ]</a>
+              <a href="subject.html#9">[ subject ]</a>
+              <a href="author.html#9">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/schillix-on-devel">More information about the Schillix-on-devel
+mailing list</a><br>
+</body></html>

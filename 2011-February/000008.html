@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Schillix-on-devel] Web review for OSS patch(1) replacement in	Schillix-on
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/schillix-on-devel/2011-February/index.html" >
+   <LINK REL="made" HREF="mailto:schillix-on-devel%40lists.berlios.de?Subject=Re%3A%20%5BSchillix-on-devel%5D%20Web%20review%20for%20OSS%20patch%281%29%20replacement%20in%0A%09Schillix-on&In-Reply-To=%3C4d540bcf.FwVYv50EzneT6UMb%25Joerg.Schilling%40fokus.fraunhofer.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000007.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Schillix-on-devel] Web review for OSS patch(1) replacement in	Schillix-on</H1>
+    <B>Joerg Schilling</B> 
+    <A HREF="mailto:schillix-on-devel%40lists.berlios.de?Subject=Re%3A%20%5BSchillix-on-devel%5D%20Web%20review%20for%20OSS%20patch%281%29%20replacement%20in%0A%09Schillix-on&In-Reply-To=%3C4d540bcf.FwVYv50EzneT6UMb%25Joerg.Schilling%40fokus.fraunhofer.de%3E"
+       TITLE="[Schillix-on-devel] Web review for OSS patch(1) replacement in	Schillix-on">Joerg.Schilling at fokus.fraunhofer.de
+       </A><BR>
+    <I>Thu Feb 10 17:01:19 CET 2011</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000007.html">[Schillix-on-devel] Removed code in ONNV
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#8">[ date ]</a>
+              <a href="thread.html#8">[ thread ]</a>
+              <a href="subject.html#8">[ subject ]</a>
+              <a href="author.html#8">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi,
+
+it seems that I did write my last mail related to this webreview only to a 
+private mailing list. 
+
+<A HREF="http://schillix-on.berlios.de/cr/schily/patch/">http://schillix-on.berlios.de/cr/schily/patch/</A>
+
+Is an attempt to replace the closed source patch(1) from Solaris that is 
+expected to be POSIX compliant with an implementation based on Larry Walls 
+last version.
+
+It has been modified to install as /usr/bin/patch with 100% POSIX behavior
+and /usr/bin/opatch with the old Larry Wall behavior.
+
+It the environment variable POSIXLY_CORRECT is present, it implements POSIX 
+behavior but in addition permits several options from the Larry Wall patch
+implementation in addition to the POSIX functionality. This is similar to what 
+GNU patch does. GNU patch however has no strict POSIX mode and this is why I 
+created the new implementation.
+
+Please send your comments, as the code is waiting since 10 days and as I like to 
+add it to our mercurial.
+
+
+J&#246;rg
+
+-- 
+ EMail:<A HREF="https://lists.berlios.de/mailman/listinfo/schillix-on-devel">joerg at schily.isdn.cs.tu-berlin.de</A> (home) J&#246;rg Schilling D-13353 Berlin
+       <A HREF="https://lists.berlios.de/mailman/listinfo/schillix-on-devel">js at cs.tu-berlin.de</A>                (uni)  
+       <A HREF="https://lists.berlios.de/mailman/listinfo/schillix-on-devel">joerg.schilling at fokus.fraunhofer.de</A> (work) Blog: <A HREF="http://schily.blogspot.com/">http://schily.blogspot.com/</A>
+ URL:  <A HREF="http://cdrecord.berlios.de/private/">http://cdrecord.berlios.de/private/</A> <A HREF="ftp://ftp.berlios.de/pub/schily">ftp://ftp.berlios.de/pub/schily</A>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000007.html">[Schillix-on-devel] Removed code in ONNV
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#8">[ date ]</a>
+              <a href="thread.html#8">[ thread ]</a>
+              <a href="subject.html#8">[ subject ]</a>
+              <a href="author.html#8">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/schillix-on-devel">More information about the Schillix-on-devel
+mailing list</a><br>
+</body></html>
